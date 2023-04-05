@@ -64,4 +64,13 @@ model user {
   phone      String
   createdAt  DateTime     @default(now()) @db.Date
   scheduling scheduling[]
+  session    session[]
+}
+
+model session {
+  id        Int      @id @default(autoincrement())
+  userid    Int
+  token     String
+  createdAt DateTime @default(now()) @db.Date
+  user      user     @relation(fields: [userid], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
