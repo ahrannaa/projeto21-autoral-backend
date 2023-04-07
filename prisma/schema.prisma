@@ -9,29 +9,32 @@ datasource db {
 
 model category {
   id        Int       @id @default(autoincrement())
+  companyid Int
   name      String    @unique
   createdAt DateTime  @default(now()) @db.Date
+  company   company   @relation(fields: [companyid], references: [id], onDelete: NoAction, onUpdate: NoAction)
   service   service[]
 }
 
 model company {
-  id        Int       @id @default(autoincrement())
+  id        Int        @id @default(autoincrement())
   name      String
   password  String
-  createdAt DateTime  @default(now()) @db.Date
+  createdAt DateTime   @default(now()) @db.Date
+  category  category[]
   service   service[]
 }
 
 model schedule {
-  id           Int          @id @default(autoincrement())
-  serviceId    Int
-  date         String
-  startingTime String
-  endTime      String
-  status       String
-  createdAt    DateTime     @default(now()) @db.Date
-  service      service      @relation(fields: [serviceId], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  scheduling   scheduling[]
+  id         Int          @id @default(autoincrement())
+  serviceId  Int
+  date       String
+  startTime  String
+  endTime    String
+  status     String
+  createdAt  DateTime     @default(now()) @db.Date
+  service    service      @relation(fields: [serviceId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  scheduling scheduling[]
 }
 
 model scheduling {
@@ -45,15 +48,15 @@ model scheduling {
 }
 
 model service {
-  id          Int        @id @default(autoincrement())
-  name        String     @unique
-  price       String
-  categorieId Int
-  companyId   Int
-  createdAt   DateTime   @default(now()) @db.Date
-  schedule    schedule[]
-  category    category   @relation(fields: [categorieId], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  company     company    @relation(fields: [companyId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  id         Int        @id @default(autoincrement())
+  name       String     @unique
+  price      String
+  categoryId Int
+  companyId  Int
+  createdAt  DateTime   @default(now()) @db.Date
+  schedule   schedule[]
+  category   category   @relation(fields: [categoryId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  company    company    @relation(fields: [companyId], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
 
 model user {
