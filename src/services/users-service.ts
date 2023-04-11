@@ -3,8 +3,6 @@ import bcrypt from "bcrypt"
 import { NotFoundError, Unauthorized } from "../errors/errors.js";
 import { v4 as uuid } from "uuid";
 
-
-
 async function createUser(name: string, email: string, password: string , phone: string) {
   const hashedPassword = await bcrypt.hashSync(password, 12);
   

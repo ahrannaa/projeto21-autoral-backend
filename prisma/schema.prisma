@@ -9,19 +9,16 @@ datasource db {
 
 model category {
   id        Int       @id @default(autoincrement())
-  companyid Int
   name      String    @unique
   createdAt DateTime  @default(now()) @db.Date
-  company   company   @relation(fields: [companyid], references: [id], onDelete: NoAction, onUpdate: NoAction)
   service   service[]
 }
 
 model company {
-  id        Int        @id @default(autoincrement())
+  id        Int       @id @default(autoincrement())
   name      String
   password  String
-  createdAt DateTime   @default(now()) @db.Date
-  category  category[]
+  createdAt DateTime  @default(now()) @db.Date
   service   service[]
 }
 
@@ -73,7 +70,7 @@ model user {
 model session {
   id        Int      @id @default(autoincrement())
   userid    Int
-  token     String
+  token     String   @unique
   createdAt DateTime @default(now()) @db.Date
   user      user     @relation(fields: [userid], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
