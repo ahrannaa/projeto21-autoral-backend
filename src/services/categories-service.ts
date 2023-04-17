@@ -10,8 +10,18 @@ async function findCategories(userId:number) {
    return categories
 };
 
+async function findCategoriesWithService(categoryId: number) {
+  const category = await categoryRepository.getCategoriesWithService(categoryId)
+   
+  if(!category){
+    throw NotFoundError
+  }
+   return category
+};
+
 const categoryService = {
-  findCategories
+  findCategories,
+  findCategoriesWithService
 };
 
 export default categoryService;

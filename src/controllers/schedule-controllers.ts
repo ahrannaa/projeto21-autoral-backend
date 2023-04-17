@@ -15,7 +15,8 @@ export async function getSchedule(req: Request, res: Response) {
 };
 
 export async function  getScheduleByServiceId(req: Request, res: Response) {
-  const { serviceId } = req.params;
+  const { serviceId } = req.query;
+  console.log(serviceId);
 
   try {
     const schedule = await scheduleService.findScheduleWithService(Number(serviceId));

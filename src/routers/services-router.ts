@@ -1,8 +1,9 @@
-import { getServices } from "../controllers/services-controllers.js";
+import { getServicesWithSchedule } from "../controllers/services-controllers.js";
 import { Router } from "express";
+import { authenticateToken } from "../middlewares/authentication-middleware.js";
 
 const serviceRouter = Router();
 
-serviceRouter.get("/:categoryId", getServices )
+serviceRouter.get("/:serviceId/schedule",authenticateToken, getServicesWithSchedule )
 
 export default  serviceRouter ;

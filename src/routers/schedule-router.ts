@@ -4,8 +4,7 @@ import { authenticateToken } from "../middlewares/authentication-middleware.js";
 
 const scheduleRouter = Router();
 
-scheduleRouter.get("",authenticateToken, getSchedule )
-scheduleRouter.get("/:serviceId",authenticateToken, getScheduleByServiceId )
+scheduleRouter.get("/",authenticateToken, getScheduleByServiceId )
 
 
 export default  scheduleRouter ;

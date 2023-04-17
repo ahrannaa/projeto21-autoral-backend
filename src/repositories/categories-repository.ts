@@ -5,8 +5,18 @@ async function getCategories() {
    return categories
 };
 
+async function getCategoriesWithService(categoryId:number) {
+  const categories = await prisma.category.findFirst({
+    where: { id: categoryId },
+    include: {
+      service: true,
+    },
+  });
+   return categories
+};
 const categoryRepository = {
-  getCategories
+  getCategories,
+  getCategoriesWithService
 };
 
 export default categoryRepository;

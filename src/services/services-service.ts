@@ -1,8 +1,8 @@
 import { NotFoundError } from "../errors/errors.js";
 import servicesRepository from "../repositories/services-repository.js";
 
-async function findServicesWithCategoryId(categoryId: number) {
-  const services = await servicesRepository.getServicesWithCategorieId(categoryId)
+async function findServicesWithSchedule(serviceId: number) {
+  const services = await servicesRepository.getServicesWithSchedule(serviceId)
    
   if(!services){
     throw NotFoundError
@@ -11,7 +11,7 @@ async function findServicesWithCategoryId(categoryId: number) {
 };
 
 const serviceService = {
-  findServicesWithCategoryId
+ findServicesWithSchedule
 };
 
 export default serviceService;

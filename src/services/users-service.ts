@@ -1,45 +1,48 @@
-import userRepository from "../repositories/users-repository.js";
+import userRepository from "../repositories/users-repository.js"
 import bcrypt from "bcrypt"
-import { NotFoundError, Unauthorized } from "../errors/errors.js";
-import { v4 as uuid } from "uuid";
+import { NotFoundError, Unauthorized } from "../errors/errors.js"
+import { v4 as uuid } from "uuid"
 
-async function createUser(name: string, email: string, password: string , phone: string) {
-  const hashedPassword = await bcrypt.hashSync(password, 12);
-  
+async function createUser(name: string, email: string, password: string, phone: string) {
+  const hashedPassword = await bcrypt.hashSync(password, 12)
+
   const user = userRepository.create(
-    name, 
-    email, 
+    name,
+    email,
     hashedPassword,
     phone
-);
- return user;
-};
+  )
+  return user
+}
 
-async function loginUser ( email: string, password: string ) {
-  const user = await userRepository.findUserWithEmail(email, password);
-  const token = uuid()
-  
-   if(!user) {
-   throw NotFoundError()
+async function loginUser(email: string, password: string) {
+  const user = await userRepository.findUserByEmail(email, password)
+
+  if (!user) {
+    throw NotFoundError()
   }
-  
-  const passwordOk = bcrypt.compareSync(password, user.password)
-  
-  if(Number(passwordOk) === 0){
-     throw Unauthorized()
+
+  const pswAreEquals = bcrypt.compareSync(password, user.password)
+
+  if (!pswAreEquals) {
+    throw Unauthorized()
   }
-  const session = await userRepository.findToken(user.id)
-   if(!session) {
-    const newToken = await userRepository.createToken(user.id, token)
-    return newToken.token
-   }; 
-  
-   return session.token
-};
+
+  let session = await userRepository.findSessionByUserId(user.id)
+
+  if (!session) {
+    session = await userRepository.createSession(user.id, uuid())
+  }
+
+  return {
+    token: session.token,
+    userId: user.id,
+  }
+}
 
 const userService = {
   createUser,
   loginUser
-};
+}
 
-export default userService;
+export default userService

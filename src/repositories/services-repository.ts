@@ -1,17 +1,17 @@
 import prisma from "../database/database.js";
 
-async function getServicesWithCategorieId(categoryId:number) {
+async function getServicesWithSchedule(serviceId:number) {
   const services = await prisma.service.findMany({
-    where: { categoryId },
+    where: { id: serviceId },
     include: {
-      category: true,
+      schedule: true,
     },
   });
    return services
 };
 
 const servicesRepository = {
-  getServicesWithCategorieId
+  getServicesWithSchedule
  };
  
  export default servicesRepository;

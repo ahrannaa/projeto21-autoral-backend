@@ -15,9 +15,20 @@ async function getCompanyWithService(companyId:number) {
    return company
 };
 
+async function getCompanyWithCategories(companyId:number) {
+  const company = await prisma.company.findFirst({
+    where: { id: companyId },
+    include: {
+      category: true,
+    },
+  });
+   return company
+};
+
 const companyRepository = {
    getCompanys,
-   getCompanyWithService
+   getCompanyWithService,
+   getCompanyWithCategories
  };
  
  export default companyRepository

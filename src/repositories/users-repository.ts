@@ -1,46 +1,49 @@
-import prisma from "../database/database.js";
+import prisma from "../database/database.js"
 
-async function create (name: string, email: string, password: string, phone: string){
-  const user = await prisma.user.create({
+async function create(name: string, email: string, password: string, phone: string) {
+  await prisma.user.create({
     data: {
-      name, email, password, phone
+      name,
+      email,
+      password,
+      phone,
     }
   })
-};
+}
 
-async function findUserWithEmail (email: string, password: string){
+async function findUserByEmail(email: string, password: string) {
   const user = await prisma.user.findFirst({
-   where: {
-     email: email
-  }
+    where: {
+      email: email,
+    }
   })
-   return user
-};
+  return user
+}
 
- async function findToken (id:number) {
+async function findSessionByUserId(userId: number) {
   const token = await prisma.session.findFirst({
     where: {
-      userid: id
+      userid: userId,
     }
   })
-   return token 
- };
+  return token
+}
 
- async function createToken (id:number, token: string) {
-   const newToken = await prisma.session.create({
-     data: {
-       userid: id,
-       token
-     }
-   })
-   return newToken
- };
+async function createSession(userId: number, token: string) {
+  const newToken = await prisma.session.create({
+    data: {
+      userid: userId,
+      token,
+    }
+  })
+  return newToken
+}
 
- const userRepository = {
- create,
- findUserWithEmail,
- findToken,
- createToken
-};
+const userRepository = {
+  create,
+  findUserByEmail,
+  findSessionByUserId,
+  createSession,
+}
 
-export default userRepository;
+export default userRepository

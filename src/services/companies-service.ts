@@ -19,9 +19,19 @@ async function findCompanyWithService(companyId: number) {
    return company
 };
 
+async function findCompanyWithCategories(companyId: number) {
+  const company = await companyRepository.getCompanyWithCategories(companyId)
+   
+  if(!company){
+    throw NotFoundError
+  }
+   return company
+};
+
 const companyService = {
   findCompany,
-  findCompanyWithService
+  findCompanyWithService,
+  findCompanyWithCategories
 };
 
 export default companyService;
